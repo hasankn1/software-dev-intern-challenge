@@ -28,10 +28,26 @@ interface Frame {
 }
 
 const calculateOpenings = (frames: Frame[]): number => {
-  const openings = 0;
+  let openings = 0;
+  // Choosing an appropriate threshold for the closed scissors
+  const closedThreshold = 0;
+  // Choosing an appropriate threshold for the opened scissors
+  const openThreshold = 0.1; // I chose 0.1 because i feel that the scissors are definetly open at this y-value. (atleast according to the desmos graph provided)
+  let isScissorsClosed = true;
 
-  // Write your algorithm
-
+  //iterate through each frame in the frames array
+  for (let i = 0; i < frames.length; i++) {
+    const frame = frames[i];
+    const { y1, y3 } = frame;
+    // Checking if both the top and bottom blades are below the closed threshold
+    if (y1 >= closedThreshold && y3 >= closedThreshold) {
+      isScissorsClosed = true;
+      // if scissors are not closed but open:
+    } else if (y1 <= openThreshold && y3 <= openThreshold && isScissorsClosed) {
+      openings++; // scissors are open so add 1
+      isScissorsClosed = false;
+    }
+  }
   console.log(`**** Openings: ${openings} ****`);
   return openings;
 };
